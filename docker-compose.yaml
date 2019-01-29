@@ -1,5 +1,11 @@
 version: "3"
 services:
+  jenkins:
+    image: jenkins/jenkins:lts-alpine
+    ports:
+    - "9090:8080"
+    volumes:
+    - "./app:/var/jenkins_home"
   openresty:
     build: 
       context: ./
