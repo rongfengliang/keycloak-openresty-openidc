@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml -o k8s-deploy
+    kompose.version: 1.17.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: openresty
+  name: openresty
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: openresty
+    spec:
+      containers:
+      - image: openresty
+        name: openresty
+        ports:
+        - containerPort: 80
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/app/
+          name: openresty-claim0
+        - mountPath: /usr/local/openresty/nginx/conf/nginx.conf
+          name: openresty-claim1
+      restartPolicy: Always
+      volumes:
+      - name: openresty-claim0
+        persistentVolumeClaim:
+          claimName: openresty-claim0
+      - name: openresty-claim1
+        persistentVolumeClaim:
+          claimName: openresty-claim1
+status: {}
