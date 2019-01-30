@@ -1,11 +1,5 @@
 version: "3"
 services:
-  jenkins:
-    image: jenkins/jenkins:lts-alpine
-    ports:
-    - "9090:8080"
-    volumes:
-    - "./app:/var/jenkins_home"
   openresty:
     build: 
       context: ./
@@ -20,6 +14,7 @@ services:
     ports:
     - "8080:8080"
     environment:
+    - "JGROUPS_DISCOVERY_PROTOCOL=PING"
     - "KEYCLOAK_USER=dalong"
     - "KEYCLOAK_PASSWORD=dalongrong"
     - "DB_VENDOR=postgres"
